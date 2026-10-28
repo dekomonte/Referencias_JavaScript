@@ -8,8 +8,15 @@ body {
   min-height: 100vh;
 }
 
+footer {
+  position:fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+}
+
 .footer-creditos {
-  background-color: #343a40;
+  background-color: #222021;
   color: #fff;
   padding: 20px 0;
   text-align: center;
