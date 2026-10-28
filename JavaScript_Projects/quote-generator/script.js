@@ -3,10 +3,24 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const githubBtn = document.getElementById('github-link');
 const newQuoteBtn = document.getElementById('new-quote');
+const loader = document.getElementById('loader');
 
 let apiQuotes = []; //Mutável
 
+// Mostra o carregador
+function loading(){
+   loader.hidden = false;
+   quoteContainer.hidden = true; 
+}
+
+//Esconde o carregador
+function complete(){
+    quoteContainer.hidden = false;
+    loader.hidden = true;
+}
+
 function newQuote(){
+    loading();
     // Serve para pegar apenas um valor do retorno da API
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
 
@@ -22,23 +36,32 @@ function newQuote(){
         quoteText.classList.remove('long-quote');
     }
 
+    // Mostra a citação e esconde o carregador
     quoteText.textContent = quote.text;
+    complete();
 }
 
 // Comunicação com a API de citações
 async function getQuote() {
-  const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
-  try {
-    const reponse = await fetch(apiUrl);
-    apiQuotes = await reponse.json();
-    newQuote();
-  } catch (error) {
-    //Error
-  }
+    loading();
+    const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
+    try {
+        const reponse = await fetch(apiUrl);
+        apiQuotes = await reponse.json();
+        newQuote();
+    } catch (error) {
+        //Error
+    }
 }
 
-function github_link() {
+// Abre a página do meu Github
+function githubLink() {
     const githubUrl = 'https://github.com/dekomonte';
+    window.open(githubUrl, '_blank');
 }
+
+// Eventos
+newQuoteBtn.addEventListener('click', newQuote);
+githubBtn.addEventListener('click', githubLink);
 
 getQuote();
